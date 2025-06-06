@@ -16,7 +16,7 @@ public class PanelClientes extends JPanel {
 
     public PanelClientes() {
         this.controller = new ClienteController();
-        this.tableModel = new DefaultTableModel(new String[]{"Nome Completo", "Identidade", "Telefone", "Email"}, 0) {
+        this.tableModel = new DefaultTableModel(new String[]{"Nome", "Sobrenome", "Identidade", "Telefone", "Email"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Tabela não editável diretamente
@@ -100,6 +100,7 @@ public class PanelClientes extends JPanel {
         controller.listarTodosClientes().forEach(cliente -> {
             tableModel.addRow(new Object[]{
                     cliente.getNome(),
+                    cliente.getSobreNome(),
                     cliente.getBilheteIdentidade(),
                     cliente.getTelefone(),
                     cliente.getEmail()
@@ -140,12 +141,12 @@ public class PanelClientes extends JPanel {
 
         JPanel panel = new JPanel(new GridLayout(6, 2));
 
-        JTextField txtNome = new JTextField();
-        JTextField txtSobreNome = new JTextField();
-        JTextField txtEndereco = new JTextField();
-        JTextField txtIdentidade = new JTextField();
-        JTextField txtTelefone = new JTextField();
-        JTextField txtEmail = new JTextField();
+        JTextField txtNome = new JTextField(cliente.getNome());
+        JTextField txtSobreNome = new JTextField(cliente.getSobreNome());
+        JTextField txtEndereco = new JTextField(cliente.getEndereco());
+        JTextField txtIdentidade = new JTextField(cliente.getBilheteIdentidade());
+        JTextField txtTelefone = new JTextField(cliente.getTelefone());
+        JTextField txtEmail = new JTextField(cliente.getEmail());
 
         panel.add(new JLabel("Nome:"));
         panel.add(txtNome);

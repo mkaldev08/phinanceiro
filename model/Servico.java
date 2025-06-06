@@ -3,8 +3,9 @@ package model;
 public class Servico {
     private String descricao;
     private double valorUnitario;
+    private int id;
 
-    public Servico(String descricao, double valorUnitario) {
+    public Servico(String descricao, Double valorUnitario) {
         this.descricao = descricao;
         this.valorUnitario = valorUnitario;
     }
@@ -23,5 +24,13 @@ public class Servico {
 
     public void setValorUnitario(double valorUnitario) {
         this.valorUnitario = valorUnitario;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

@@ -16,7 +16,7 @@ public class JanelaMain extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab("Clientes", new PanelClientes());
-
+        tabbedPane.addTab("Serviços", new PanelServicos());
 
         add(tabbedPane);
     }
