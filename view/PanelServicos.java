@@ -31,7 +31,7 @@ public class PanelServicos extends JPanel {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-        JPanel panelBotoesAccoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelBotoesAccoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton btnAdicionar = new JButton("Adicionar Serviço");
         btnAdicionar.addActionListener(this::adicionarServico);
@@ -142,12 +142,14 @@ public class PanelServicos extends JPanel {
             return;
         }
 
+        Servico servico = controller.listarTodosServicos().get(selectedRow);
+
         int confirm = JOptionPane.showConfirmDialog(
                 null, "Tem certeza que deseja remover este serviço?",
                 "Confirmar", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            controller.removerServico(selectedRow);
+            controller.removerServico(servico.getId());
             atualizarTabela();
         }
     }

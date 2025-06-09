@@ -56,8 +56,6 @@ public class ServicoController {
         Servico servico = buscarServico(id);
         if (servico != null) {
             servicos.remove(servico);
-            System.out.println("Serviço removido com sucesso!");
-            System.out.printf("Id eliminado %d\n - ID: %d ", id, servico.getId());
         }
 
     }

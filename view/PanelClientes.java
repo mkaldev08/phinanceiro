@@ -2,6 +2,7 @@ package view;
 
 import controller.ClienteController;
 import model.Cliente;
+import model.Servico;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +33,7 @@ public class PanelClientes extends JPanel {
     private void initComponents() {
         setLayout(new BorderLayout());
 
-        JPanel panelBotoesAccoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelBotoesAccoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton btnAdicionar = new JButton("Adicionar Cliente");
         btnAdicionar.addActionListener(this::adicionarCliente);
@@ -119,12 +120,13 @@ public class PanelClientes extends JPanel {
             return;
         }
 
+        Cliente cliente = controller.listarTodosClientes().get(selectedRow);
         int confirm = JOptionPane.showConfirmDialog(
                 null, "Tem certeza que deseja remover este cliente?",
                 "Confirmar", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            controller.removerCliente(selectedRow);
+            controller.removerCliente(cliente.getId());
             atualizarTabela();
         }
     }
