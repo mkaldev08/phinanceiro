@@ -1,7 +1,6 @@
 package controller;
 
 import model.Servico;
-import model.Servico;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,8 @@ public class ServicoController {
 
     public void cadastrarServico(Servico novoServico) {
         validarServico(novoServico);
-        novoServico.setId(lastId++);
+        lastId += 1;
+        novoServico.setId(lastId);
         this.servicos.add(novoServico);
         lastId = novoServico.getId();
     }
@@ -49,6 +49,16 @@ public class ServicoController {
 
         servicoExistente.setDescricao(servicoAtualizado.getDescricao());
         servicoExistente.setValorUnitario(servicoAtualizado.getValorUnitario());
+
+    }
+
+    public void removerServico(int id) {
+        Servico servico = buscarServico(id);
+        if (servico != null) {
+            servicos.remove(servico);
+            System.out.println("Serviço removido com sucesso!");
+            System.out.printf("Id eliminado %d\n - ID: %d ", id, servico.getId());
+        }
 
     }
 }

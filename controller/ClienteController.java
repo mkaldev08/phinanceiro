@@ -16,7 +16,8 @@ public class ClienteController {
 
     public void cadastrarCliente(Cliente novoCliente) {
         validarCliente(novoCliente);
-        novoCliente.setId(lastId++);
+        lastId += 1;
+        novoCliente.setId(lastId);
         this.clientes.add(novoCliente);
         lastId = novoCliente.getId();
     }

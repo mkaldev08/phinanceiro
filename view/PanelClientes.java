@@ -14,8 +14,8 @@ public class PanelClientes extends JPanel {
     private final DefaultTableModel tableModel;
     private final JTable tabelaClientes;
 
-    public PanelClientes() {
-        this.controller = new ClienteController();
+    public PanelClientes(ClienteController controller) {
+        this.controller = controller;
         this.tableModel = new DefaultTableModel(new String[]{"Nome", "Sobrenome", "Identidade", "Telefone", "Email"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -109,6 +109,7 @@ public class PanelClientes extends JPanel {
     }
 
     private void removerCliente(ActionEvent eventClick) {
+
         int selectedRow = tabelaClientes.getSelectedRow();
 
         if (selectedRow == -1) {

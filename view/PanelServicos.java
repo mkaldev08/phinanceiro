@@ -14,9 +14,9 @@ public class PanelServicos extends JPanel {
     private final DefaultTableModel tableModel;
     private final JTable tabelaServicos;
 
-    public PanelServicos() {
-        this.controller = new ServicoController();
-        this.tableModel = new DefaultTableModel(new String[]{"Descrição", "Valor Unitário (Kz)"}, 0) {
+    public PanelServicos(ServicoController controller) {
+        this.controller = controller;
+        this.tableModel = new DefaultTableModel(new String[]{"ID", "Descrição", "Valor Unitário (Kz)"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Tabela não editável diretamente
@@ -40,7 +40,7 @@ public class PanelServicos extends JPanel {
         btnEditar.addActionListener(this::editarServico);
 
         JButton btnRemover = new JButton("Remover");
-//        btnRemover.addActionListener(this::removerCliente);
+        btnRemover.addActionListener(this::removerServico);
 
         panelBotoesAccoes.add(btnAdicionar);
         panelBotoesAccoes.add(btnEditar);
@@ -59,6 +59,7 @@ public class PanelServicos extends JPanel {
         tableModel.setRowCount(0); // Limpa a tabela antes de reconstrui-la
         controller.listarTodosServicos().forEach(servico -> {
             tableModel.addRow(new Object[]{
+                    servico.getId(),
                     servico.getDescricao(),
                     servico.getValorUnitario()
             });
@@ -131,4 +132,23 @@ public class PanelServicos extends JPanel {
         }
     }
 
+    private void removerServico(ActionEvent eventClick) {
+        int selectedRow = tabelaServicos.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null,
+                    "Selecione um servço para remover",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                null, "Tem certeza que deseja remover este serviço?",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            controller.removerServico(selectedRow);
+            atualizarTabela();
+        }
+    }
 }
