@@ -12,17 +12,12 @@ import java.awt.event.ActionEvent;
 
 public class PanelClientes extends JPanel {
     private final ClienteController controller;
-    private final DefaultTableModel tableModel;
+    private final ClienteTableModel tableModel;
     private final JTable tabelaClientes;
 
     public PanelClientes(ClienteController controller) {
         this.controller = controller;
-        this.tableModel = new DefaultTableModel(new String[]{"Nome", "Sobrenome", "Identidade", "Telefone", "Email"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Tabela não editável diretamente
-            }
-        };
+        tableModel = new ClienteTableModel(controller.listarTodosClientes());
 
         this.tabelaClientes = new JTable(tableModel);
         initComponents();
@@ -97,16 +92,7 @@ public class PanelClientes extends JPanel {
     }
 
     private void atualizarTabela() {
-        tableModel.setRowCount(0); // Limpa a tabela antes de reconstrui-la
-        controller.listarTodosClientes().forEach(cliente -> {
-            tableModel.addRow(new Object[]{
-                    cliente.getNome(),
-                    cliente.getSobreNome(),
-                    cliente.getBilheteIdentidade(),
-                    cliente.getTelefone(),
-                    cliente.getEmail()
-            });
-        });
+        tableModel.atualizarDados(controller.listarTodosClientes());
     }
 
     private void removerCliente(ActionEvent eventClick) {

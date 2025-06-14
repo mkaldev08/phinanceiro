@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Orcamento {
@@ -16,8 +17,11 @@ public class Orcamento {
         PENDENTE, APROVADO, RECUSADO, CANCELADO
     }
 
-    public Orcamento() {
+    public Orcamento(Cliente cliente) {
         this.produtos = new ArrayList<>();
+        this.status = STATUS.PENDENTE;
+        this.data = LocalDate.now();
+        this.cliente = cliente;
     }
 
     public void adicionarProduto(Produto produto) {

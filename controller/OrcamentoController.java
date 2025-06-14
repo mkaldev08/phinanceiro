@@ -1,5 +1,6 @@
 package controller;
 
+import model.Cliente;
 import model.Orcamento;
 import model.Produto;
 import model.Servico;
@@ -11,15 +12,17 @@ import java.util.List;
 public class OrcamentoController {
     private List<Orcamento> orcamentos;
     private ServicoController servicoController;
+    private ClienteController clienteController;
     private static int lastId = 0;
 
-    public OrcamentoController(ServicoController servicoController) {
+    public OrcamentoController(ServicoController servicoController, ClienteController clienteController) {
         this.orcamentos = new ArrayList<>();
         this.servicoController = servicoController;
+        this.clienteController = clienteController;
     }
 
-    public Orcamento criarOrcamento() {
-        Orcamento novoOrcamento = new Orcamento();
+    public Orcamento criarOrcamento(Cliente cliente) {
+        Orcamento novoOrcamento = new Orcamento(cliente);
         novoOrcamento.setId(++lastId);
         orcamentos.add(novoOrcamento);
         limparOrcamentoAtual(novoOrcamento.getId());
@@ -50,20 +53,9 @@ public class OrcamentoController {
                 .orElse(null);
     }
 
-    public double calcularTotalOrcamento(int orcamentoId) {
-        Orcamento orcamento = buscarOrcamento(orcamentoId);
-        if (orcamento == null) return 0;
-
-        return orcamento.getValorTotal();
-    }
-
-    public List<Servico> listarServicosDisponiveis() {
-        return servicoController.listarTodosServicos();
-    }
-
     public void limparOrcamentoAtual(int orcamentoId) {
         Orcamento orc = buscarOrcamento(orcamentoId);
-        orc = new Orcamento();
+        orc = new Orcamento(orc.getCliente());
     }
 
     public List<Produto> listarItensOrcamento(int orcamentoId) {

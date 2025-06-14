@@ -16,7 +16,7 @@ public class JanelaMain extends JFrame {
         // Inicializa os controllers
         this.servicoController = new ServicoController();
         this.clienteController = new ClienteController();
-        this.orcamentoController = new OrcamentoController(servicoController);
+        this.orcamentoController = new OrcamentoController(servicoController, clienteController);
         setTitle("Sistema de Gestão Phinanceira - Gráfica");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +30,7 @@ public class JanelaMain extends JFrame {
 
         tabbedPane.addTab("Clientes", new PanelClientes(clienteController));
         tabbedPane.addTab("Serviços", new PanelServicos(servicoController));
-        tabbedPane.addTab("Orçamentos", new PanelOrcamentos(servicoController, orcamentoController));
+        tabbedPane.addTab("Orçamentos", new PanelOrcamentos(servicoController, orcamentoController, clienteController));
 
         add(tabbedPane);
     }

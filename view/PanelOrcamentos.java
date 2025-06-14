@@ -1,30 +1,36 @@
 package view;
 
+import controller.ClienteController;
 import controller.OrcamentoController;
 import controller.ServicoController;
+import model.Cliente;
 import model.Orcamento;
 import model.Servico;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PanelOrcamentos extends JPanel {
     private int orcamentoAtualId;
     private final OrcamentoController orcamentoController;
     private final ServicoController servicoController;
-    private ServicoTableModel tabelaServicosModel;
+    private final ClienteController clienteController;
+
+    private final ServicoTableModel tabelaServicosModel;
+    private final ClienteTableModel tabelaClientesModel;
+
     private JTable tableItensOrcamento;
     private JTable tableServicosDisponiveis;
+    private JTable tabelaClientes;
 
-    public PanelOrcamentos(ServicoController servicoController, OrcamentoController orcamentoController) {
+    public PanelOrcamentos(ServicoController servicoController, OrcamentoController orcamentoController, ClienteController clienteController) {
         this.servicoController = servicoController;
         this.orcamentoController = orcamentoController;
-        this.orcamentoAtualId = this.orcamentoController.criarOrcamento().getId();
+        this.clienteController = clienteController;
 
         tabelaServicosModel = new ServicoTableModel(servicoController.listarTodosServicos());
+        tabelaClientesModel = new ClienteTableModel(clienteController.listarTodosClientes());
 
         initComponents();
     }
@@ -34,13 +40,21 @@ public class PanelOrcamentos extends JPanel {
 
         // Tabela de serviços disponíveis
         tableServicosDisponiveis = new JTable(tabelaServicosModel);
+        tabelaClientes = new JTable(tabelaClientesModel);
+
         JScrollPane scrollServicos = new JScrollPane(tableServicosDisponiveis);
+        JScrollPane scrollClientes = new JScrollPane(tabelaClientes);
 
         // Tabela de itens que estara no orçamento
         tableItensOrcamento = new JTable(new DefaultTableModel(new Object[]{"Descrição", "Quantidade", "Valor Unitário", "Subtotal"}, 0));
         JScrollPane scrollItens = new JScrollPane(tableItensOrcamento);
 
+        JSplitPane spTabelas = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollServicos, scrollClientes);
+
         JPanel panelBotoesAccoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JButton btnSelecionarCliente = new JButton("Vincular Cliente");
+        btnSelecionarCliente.addActionListener(e -> selecionarClienteParaOrcamento());
 
         JButton btnAdicionar = new JButton("Adicionar Serviço ao Orçamento");
         btnAdicionar.addActionListener(e -> adicionarServicoAoOrcamento());
@@ -49,14 +63,16 @@ public class PanelOrcamentos extends JPanel {
         btnFinalizarOrcamento.addActionListener(e -> finalizarOrcamento());
 
         JButton btnCarregarDados = new JButton("Carregar Dados");
-        btnCarregarDados.addActionListener(e -> atualizarTabelaServicosDisponiveis());
+        btnCarregarDados.addActionListener(e -> atualizarTabelaAuxiliares());
 
+        panelBotoesAccoes.add(btnSelecionarCliente);
         panelBotoesAccoes.add(btnAdicionar);
         panelBotoesAccoes.add(btnFinalizarOrcamento);
         panelBotoesAccoes.add(btnCarregarDados);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollServicos, scrollItens);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spTabelas, scrollItens);
         splitPane.setResizeWeight(0.5);
+        spTabelas.setResizeWeight(.5);
 
         add(splitPane, BorderLayout.CENTER);
         add(panelBotoesAccoes, BorderLayout.SOUTH);
@@ -65,6 +81,14 @@ public class PanelOrcamentos extends JPanel {
     }
 
     private void adicionarServicoAoOrcamento() {
+
+        if (orcamentoAtualId == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um cliente primeiro",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         int selectedRow = tableServicosDisponiveis.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um serviço");
@@ -89,7 +113,6 @@ public class PanelOrcamentos extends JPanel {
             int quantidade = (Integer) spinnerQuantidade.getValue();
             String observacoes = txtObservacoes.getText();
 
-
             orcamentoController.adicionarItem(orcamentoAtualId, servico.getId(), quantidade, observacoes);
 
             atualizarTabelaItens();
@@ -107,28 +130,65 @@ public class PanelOrcamentos extends JPanel {
                     model.addRow(new Object[]{
                             produto.getServico().getDescricao(),
                             produto.getQuantidade(),
-                            produto.getServico().getValorUnitario(),
-                            produto.getServico().getValorUnitario() * produto.getQuantidade()
+                            String.format("%,.2f", produto.getServico().getValorUnitario()),
+                            String.format("%,.2f", produto.getServico().getValorUnitario() * produto.getQuantidade())
                     });
                 }
             });
         }
     }
 
-    private void finalizarOrcamento() {
-        Orcamento orcamento = orcamentoController.buscarOrcamento(orcamentoAtualId);
-        if (orcamento == null) return;
+    private void selecionarClienteParaOrcamento() {
+        int selectedRow = tabelaClientes.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um cliente na tabela",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        double total = orcamento.getValorTotal();
+        Cliente cliente = tabelaClientesModel.getClienteAt(selectedRow);
+        this.orcamentoAtualId = orcamentoController.criarOrcamento(cliente).getId();
         JOptionPane.showMessageDialog(this,
-                "Orçamento finalizado!\nTotal: Kz " + String.format("%.2f", total),
+                "Orçamento criado para " + cliente.getNome(),
                 "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-        this.orcamentoAtualId = orcamentoController.criarOrcamento().getId();
-        atualizarTabelaItens();
     }
 
-    private void atualizarTabelaServicosDisponiveis() {
+    private void finalizarOrcamento() {
+        int selectedRow = tabelaClientes.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione um cliente antes de finalizar",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Cliente cliente = tabelaClientesModel.getClienteAt(selectedRow);
+
+        Orcamento orcamento = orcamentoController.buscarOrcamento(orcamentoAtualId);
+        if (orcamento != null) {
+            orcamento.setCliente(cliente);
+            double total = orcamento.getValorTotal();
+            if (total <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Coloque Produtos/Servicos antes de finalizar",
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Orçamento finalizado para " + cliente.getNome() +
+                                "\nTotal: Kz " + String.format("%,.2f", total),
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Inicia uma operacao antes de finalizar",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void atualizarTabelaAuxiliares() {
         tabelaServicosModel.atualizarDados(servicoController.listarTodosServicos());
+        tabelaClientesModel.atualizarDados(clienteController.listarTodosClientes());
     }
 }
