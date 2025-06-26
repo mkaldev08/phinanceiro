@@ -1,42 +1,67 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Receita extends TransacaoFinanceira {
     private Cliente cliente;
     private Orcamento orcamentoOrigem;
-    private FORMAPAGAMENTO formapagamento;
+    private FORMAPAGAMENTO formaPagamento;
+    private boolean recebido;
+    private int id;
 
     public Receita(Cliente c, FORMAPAGAMENTO formP, Orcamento orc) {
-        super();
+        super(orc.getValorTotal(), "Receita de " + c.getNome() + " " + orc.getId());
         this.cliente = c;
-        this.formapagamento = formP;
+        this.formaPagamento = formP;
         this.orcamentoOrigem = orc;
     }
 
     public enum FORMAPAGAMENTO {
-        DINHEIRO, EXPRESS, MULTICAIXA, TRANSFERENCIA
+        DINHEIRO("Dinheiro"),
+        EXPRESS("Express"),
+        MULTICAIXA("Multicaixa"),
+        TRANSFERENCIA("Transferência");
+
+        private final String descricao;
+
+        FORMAPAGAMENTO(String descricao) {
+            this.descricao = descricao;
+        }
+
+        @Override
+        public String toString() {
+            return descricao;
+        }
+    }
+
+    public void registrarRecebimento() {
+        this.recebido = true;
+        this.setData(LocalDate.now());
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public boolean isRecebido() {
+        return recebido;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public Orcamento getOrcamentoOrigem() {
         return orcamentoOrigem;
     }
 
-    public void setOrcamentoOrigem(Orcamento orcamentoOrigem) {
-        this.orcamentoOrigem = orcamentoOrigem;
-    }
 
     public FORMAPAGAMENTO getFormapagamento() {
-        return formapagamento;
-    }
-
-    public void setFormapagamento(FORMAPAGAMENTO formapagamento) {
-        this.formapagamento = formapagamento;
+        return formaPagamento;
     }
 }

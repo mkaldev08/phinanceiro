@@ -10,6 +10,7 @@ public class Despesa extends TransacaoFinanceira {
     }
 
     public Despesa() {
+        super();
     }
 
     public Fornecedor getFornedor() {

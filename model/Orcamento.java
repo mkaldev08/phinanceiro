@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Orcamento {
@@ -13,8 +12,24 @@ public class Orcamento {
     private STATUS status;
     private int id;
 
-    public static enum STATUS {
-        PENDENTE, APROVADO, RECUSADO, CANCELADO
+    public enum STATUS {
+        PENDENTE("Pendente"), APROVADO("Aprovado"), RECUSADO("Recusado"), CANCELADO
+                ("Cancelado");
+
+        private final String descricao;
+
+        STATUS(String descricao) {
+            this.descricao = descricao;
+        }
+
+        @Override
+        public String toString() {
+            return this.descricao;
+        }
+    }
+
+    public void aprovar() {
+        this.status = STATUS.APROVADO;
     }
 
     public Orcamento(Cliente cliente) {

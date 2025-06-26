@@ -1,9 +1,6 @@
 package controller;
 
-import model.Cliente;
-import model.Orcamento;
-import model.Produto;
-import model.Servico;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,13 +9,26 @@ import java.util.List;
 public class OrcamentoController {
     private List<Orcamento> orcamentos;
     private ServicoController servicoController;
-    private ClienteController clienteController;
+    private ReceitaController receitaController;
     private static int lastId = 0;
 
-    public OrcamentoController(ServicoController servicoController, ClienteController clienteController) {
+    public OrcamentoController(ServicoController servicoController) {
         this.orcamentos = new ArrayList<>();
         this.servicoController = servicoController;
-        this.clienteController = clienteController;
+    }
+
+    public OrcamentoController(ReceitaController receitaController) {
+        this.receitaController = receitaController;
+
+    }
+
+    public void aprovarOrcamento(int orcamentoId, Receita.FORMAPAGAMENTO formaPagamento) {
+        Orcamento orcamento = buscarOrcamento(orcamentoId);
+        if (orcamento != null) {
+            orcamento.aprovar();
+            // Cria a receita associada
+            receitaController.criarReceita(orcamento, formaPagamento);
+        }
     }
 
     public Orcamento criarOrcamento(Cliente cliente) {

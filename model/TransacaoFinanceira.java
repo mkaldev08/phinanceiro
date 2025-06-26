@@ -1,28 +1,30 @@
 package model;
 
+import java.time.LocalDate;
+
 abstract class TransacaoFinanceira {
     private double valor;
     private String descricao;
-    private String data;
+    private LocalDate data;
 
-
-    public TransacaoFinanceira() {
+    public TransacaoFinanceira(double valor, String descricao) {
+        this.valor = valor;
+        this.descricao = descricao;
+        this.setData(LocalDate.now());
     }
 
-    public String getData() {
+    public TransacaoFinanceira(){}
+
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
     public double getValor() {
         return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 
     public String getDescricao() {

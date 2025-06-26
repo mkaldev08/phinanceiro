@@ -5,11 +5,14 @@ import controller.OrcamentoController;
 import controller.ServicoController;
 import model.Cliente;
 import model.Orcamento;
+import model.Receita;
 import model.Servico;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelOrcamentos extends JPanel {
     private int orcamentoAtualId;
@@ -60,7 +63,16 @@ public class PanelOrcamentos extends JPanel {
         btnAdicionar.addActionListener(e -> adicionarServicoAoOrcamento());
 
         JButton btnFinalizarOrcamento = new JButton("Finalizar Orçamento");
+
         btnFinalizarOrcamento.addActionListener(e -> finalizarOrcamento());
+
+        JButton btnFinalizarEAprovar = new JButton("Finalizar e Aprovar");
+        btnFinalizarEAprovar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aprovarOrcamento();
+            }
+        });
 
         JButton btnCarregarDados = new JButton("Carregar Dados");
         btnCarregarDados.addActionListener(e -> atualizarTabelaAuxiliares());
@@ -68,6 +80,7 @@ public class PanelOrcamentos extends JPanel {
         panelBotoesAccoes.add(btnSelecionarCliente);
         panelBotoesAccoes.add(btnAdicionar);
         panelBotoesAccoes.add(btnFinalizarOrcamento);
+        panelBotoesAccoes.add(btnFinalizarEAprovar);
         panelBotoesAccoes.add(btnCarregarDados);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spTabelas, scrollItens);
@@ -190,5 +203,41 @@ public class PanelOrcamentos extends JPanel {
     private void atualizarTabelaAuxiliares() {
         tabelaServicosModel.atualizarDados(servicoController.listarTodosServicos());
         tabelaClientesModel.atualizarDados(clienteController.listarTodosClientes());
+    }
+
+    private void aprovarOrcamento() {
+        finalizarOrcamento();
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        JComboBox<Receita.FORMAPAGAMENTO> comboFORMAPAGAMENTO = new JComboBox<>(Receita.FORMAPAGAMENTO.values());
+        panel.add(new JLabel("Forma de Pagamento:"));
+        panel.add(comboFORMAPAGAMENTO);
+
+        int result = JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Aprovar Orçamento e Definir Pagamento",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+            Receita.FORMAPAGAMENTO formaPagamento =
+                    (Receita.FORMAPAGAMENTO) comboFORMAPAGAMENTO.getSelectedItem();
+
+            orcamentoController.aprovarOrcamento(
+                    orcamentoAtualId,
+                    formaPagamento
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Orçamento aprovado e receita criada!\n" +
+                            "Forma de Pagamento: " + formaPagamento.toString(),
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            atualizarTabelaItens();
+        }
     }
 }
