@@ -64,4 +64,8 @@ public class Receita extends TransacaoFinanceira {
     public FORMAPAGAMENTO getFormapagamento() {
         return formaPagamento;
     }
+
+    public String getDataFormatada() {
+        return this.getData().toString();
+    }
 }

@@ -9,12 +9,14 @@ import java.util.List;
 public class OrcamentoController {
     private List<Orcamento> orcamentos;
     private ServicoController servicoController;
+    private MaterialController materialController;
     private ReceitaController receitaController;
     private static int lastId = 0;
 
-    public OrcamentoController(ServicoController servicoController) {
+    public OrcamentoController(ServicoController servicoController, MaterialController materialController) {
         this.orcamentos = new ArrayList<>();
         this.servicoController = servicoController;
+        this.materialController = materialController;
     }
 
     public OrcamentoController(ReceitaController receitaController) {
@@ -39,7 +41,7 @@ public class OrcamentoController {
         return novoOrcamento;
     }
 
-    public void adicionarItem(int orcamentoId, int servicoId, int quantidade, String observacoes) {
+    public void adicionarItemServico(int orcamentoId, int servicoId, int quantidade, String observacoes) {
         Orcamento orcamento = buscarOrcamento(orcamentoId);
         Servico servico = servicoController.buscarServico(servicoId);
 
@@ -47,13 +49,23 @@ public class OrcamentoController {
             throw new IllegalArgumentException("Orçamento ou Serviço não encontrado");
         }
 
-        Produto produto = new Produto();
-        produto.setServico(servico);
-        produto.setQuantidade(quantidade);
-        produto.setObservacao(observacoes);
-        produto.setDescricao(servico.getDescricao());
+        ItemOrcamento item = new ItemOrcamento(servico, quantidade, observacoes);
 
-        orcamento.adicionarProduto(produto);
+        orcamento.adicionarItemOrcamento(item);
+    }
+
+    public void adicionarItemMaterial(int orcamentoId, int materialId, int quantidade, String observacoes) {
+        Orcamento orcamento = buscarOrcamento(orcamentoId);
+
+        Material material = materialController.buscarMaterial(materialId);
+
+        if (orcamento == null || material == null) {
+            throw new IllegalArgumentException("Orçamento ou Material não encontrado");
+        }
+
+        ItemOrcamento item = new ItemOrcamento(material, quantidade, observacoes);
+
+        orcamento.adicionarItemOrcamento(item);
     }
 
     public Orcamento buscarOrcamento(int id) {
@@ -68,8 +80,8 @@ public class OrcamentoController {
         orc = new Orcamento(orc.getCliente());
     }
 
-    public List<Produto> listarItensOrcamento(int orcamentoId) {
+    public List<ItemOrcamento> listarItensOrcamento(int orcamentoId) {
         Orcamento orcamento = buscarOrcamento(orcamentoId);
-        return orcamento != null ? orcamento.getProdutos() : Collections.emptyList();
+        return orcamento != null ? orcamento.getItensOrcamento() : Collections.emptyList();
     }
 }

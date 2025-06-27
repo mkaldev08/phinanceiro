@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Despesa extends TransacaoFinanceira {
     private Fornecedor fornedor;
     private CATEGORIA categoria;
@@ -9,8 +11,11 @@ public class Despesa extends TransacaoFinanceira {
         MATERIAL, ALUGUEL, SALARIO, MANUTENCAO, OUTROS
     }
 
-    public Despesa() {
-        super();
+    public Despesa(double valor, String descricao,
+                   Fornecedor fornecedor, CATEGORIA categoria) {
+        super(valor, descricao);
+        this.categoria = categoria;
+        this.fornedor = fornecedor;
     }
 
     public Fornecedor getFornedor() {

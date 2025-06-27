@@ -7,7 +7,7 @@ import java.util.List;
 public class Orcamento {
     private Cliente cliente;
     private LocalDate data;
-    private ArrayList<Produto> produtos;
+    private ArrayList<ItemOrcamento> itens;
     private double valorTotal;
     private STATUS status;
     private int id;
@@ -33,18 +33,18 @@ public class Orcamento {
     }
 
     public Orcamento(Cliente cliente) {
-        this.produtos = new ArrayList<>();
+        this.itens = new ArrayList<>();
         this.status = STATUS.PENDENTE;
         this.data = LocalDate.now();
         this.cliente = cliente;
     }
 
-    public void adicionarProduto(Produto produto) {
-        produtos.add(produto);
+    public void adicionarItemOrcamento(ItemOrcamento item) {
+        itens.add(item);
     }
 
-    public List<Produto> getProdutos() {
-        return new ArrayList<>(produtos);
+    public List<ItemOrcamento> getItensOrcamento() {
+        return new ArrayList<>(itens);
     }
 
     public Cliente getCliente() {
@@ -59,22 +59,6 @@ public class Orcamento {
         this.id = id;
     }
 
-    private double calcularValorTotal() {
-        double tempTotal = 0;
-
-        if (this.produtos == null || this.produtos.isEmpty()) {
-            return tempTotal;
-        }
-
-        for (Produto produto : this.produtos) {
-            if (produto.getServico() == null || produto.getQuantidade() < 1 || produto.getServico().getValorUnitario() < 1) {
-                continue;
-            }
-            tempTotal += produto.getQuantidade() * produto.getServico().getValorUnitario();
-        }
-        return tempTotal;
-    }
-
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
@@ -87,13 +71,14 @@ public class Orcamento {
         this.data = data;
     }
 
-    public void setProdutos(ArrayList<Produto> produtos) {
-        this.produtos = produtos;
+    public void setItemOrcamentos(ArrayList<ItemOrcamento> itens) {
+        this.itens = itens;
     }
 
     public double getValorTotal() {
-        valorTotal = calcularValorTotal();
-        return valorTotal;
+        return itens.stream()
+                .mapToDouble(ItemOrcamento::getSubtotal)
+                .sum();
     }
 
     public STATUS getStatus() {

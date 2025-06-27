@@ -126,7 +126,7 @@ public class PanelOrcamentos extends JPanel {
             int quantidade = (Integer) spinnerQuantidade.getValue();
             String observacoes = txtObservacoes.getText();
 
-            orcamentoController.adicionarItem(orcamentoAtualId, servico.getId(), quantidade, observacoes);
+            orcamentoController.adicionarItemServico(orcamentoAtualId, servico.getId(), quantidade, observacoes);
 
             atualizarTabelaItens();
         }
@@ -137,14 +137,14 @@ public class PanelOrcamentos extends JPanel {
         model.setRowCount(0);
 
         Orcamento orcamento = orcamentoController.buscarOrcamento(orcamentoAtualId);
-        if (orcamento != null && orcamento.getProdutos() != null) {
-            orcamento.getProdutos().forEach(produto -> {
-                if (produto != null && produto.getServico() != null) {
+        if (orcamento != null && orcamento.getItensOrcamento() != null) {
+            orcamento.getItensOrcamento().forEach(item -> {
+                if (item != null && item.getServico() != null) {
                     model.addRow(new Object[]{
-                            produto.getServico().getDescricao(),
-                            produto.getQuantidade(),
-                            String.format("%,.2f", produto.getServico().getValorUnitario()),
-                            String.format("%,.2f", produto.getServico().getValorUnitario() * produto.getQuantidade())
+                            item.getServico().getDescricao(),
+                            item.getQuantidade(),
+                            String.format("%,.2f", item.getServico().getValorUnitario()),
+                            String.format("%,.2f", item.getServico().getValorUnitario() * item.getQuantidade())
                     });
                 }
             });
@@ -185,7 +185,7 @@ public class PanelOrcamentos extends JPanel {
             double total = orcamento.getValorTotal();
             if (total <= 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Coloque Produtos/Servicos antes de finalizar",
+                        "Coloque ItemOrcamento/Servicos antes de finalizar",
                         "Aviso", JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this,

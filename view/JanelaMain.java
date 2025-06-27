@@ -1,9 +1,6 @@
 package view;
 
-import controller.ClienteController;
-import controller.OrcamentoController;
-import controller.ReceitaController;
-import controller.ServicoController;
+import controller.*;
 
 import javax.swing.*;
 
@@ -13,13 +10,17 @@ public class JanelaMain extends JFrame {
     private final ClienteController clienteController;
     private final OrcamentoController orcamentoController;
     private final ReceitaController receitaController;
+    private final MaterialController materialController;
+    private final FornecedorController fornecedorController;
 
     public JanelaMain() {
         // Inicializa os controllers
         this.servicoController = new ServicoController();
         this.clienteController = new ClienteController();
         this.receitaController = new ReceitaController();
-        this.orcamentoController = new OrcamentoController(servicoController);
+        this.materialController = new MaterialController();
+        this.fornecedorController = new FornecedorController();
+        this.orcamentoController = new OrcamentoController(servicoController, materialController);
         setTitle("Sistema de Gestão Phinanceira - Gráfica");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +32,7 @@ public class JanelaMain extends JFrame {
     private void initUI() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Fornecedores", new PanelFornecedores());
+        tabbedPane.addTab("Fornecedores", new PanelFornecedores(fornecedorController));
         tabbedPane.addTab("Clientes", new PanelClientes(clienteController));
         tabbedPane.addTab("Serviços", new PanelServicos(servicoController));
         tabbedPane.addTab("Orçamentos", new PanelOrcamentos(servicoController, orcamentoController, clienteController));

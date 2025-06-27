@@ -43,4 +43,20 @@ public class ReceitaController {
                 .filter(r -> r.getCliente().getId() == idCliente)
                 .collect(Collectors.toList());
     }
+
+    public List<Receita> listarReceitasRecebidas() {
+        return receitas.stream()
+                .filter(Receita::isRecebido)
+                .collect(Collectors.toList());
+    }
+
+    public List<Receita> listarReceitasPendentes() {
+        return receitas.stream()
+                .filter(r -> !r.isRecebido())
+                .collect(Collectors.toList());
+    }
+
+    public List<Receita> listarTodasReceitas() {
+        return new ArrayList<>(receitas);
+    }
 }
