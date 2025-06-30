@@ -3,6 +3,7 @@ package view;
 import controller.ClienteController;
 import controller.OrcamentoController;
 import controller.ServicoController;
+
 import model.Cliente;
 import model.Orcamento;
 import model.Receita;
@@ -22,6 +23,7 @@ public class PanelOrcamentos extends JPanel {
     private final ServicoController servicoController;
     private final ClienteController clienteController;
 
+
     private final ServicoTableModel tabelaServicosModel;
     private final ClienteTableModel tabelaClientesModel;
 
@@ -33,6 +35,7 @@ public class PanelOrcamentos extends JPanel {
         this.servicoController = servicoController;
         this.orcamentoController = orcamentoController;
         this.clienteController = clienteController;
+
 
         tabelaServicosModel = new ServicoTableModel(servicoController.listarTodosServicos());
         tabelaClientesModel = new ClienteTableModel(clienteController.listarTodosClientes());
@@ -235,13 +238,13 @@ public class PanelOrcamentos extends JPanel {
                     formaPagamento
             );
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Orçamento aprovado e receita criada!\n" +
-                            "Forma de Pagamento: " + formaPagamento.toString(),
-                    "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Orçamento aprovado e receita criada!\n" +
+                                    "Forma de Pagamento: " + formaPagamento.toString(),
+                            "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
 
             atualizarTabelaItens();
         }

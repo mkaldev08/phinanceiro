@@ -13,16 +13,11 @@ public class OrcamentoController {
     private final ReceitaController receitaController;
     private static int lastId = 0;
 
-    public OrcamentoController(ServicoController servicoController, MaterialController materialController) {
+    public OrcamentoController(ServicoController servicoController, MaterialController materialController, ReceitaController receitaController) {
         this.orcamentos = new ArrayList<>();
         this.servicoController = servicoController;
         this.materialController = materialController;
-        this.receitaController = new ReceitaController();
-    }
-
-    public OrcamentoController(ReceitaController receitaController) {
         this.receitaController = receitaController;
-
     }
 
     public void aprovarOrcamento(int orcamentoId, Receita.FORMAPAGAMENTO formaPagamento) {
@@ -31,7 +26,8 @@ public class OrcamentoController {
             orcamento.aprovar();
 
             // Cria a receita associada
-            receitaController.criarReceita(orcamento, formaPagamento);
+            Receita receita = receitaController.criarReceita(orcamento, formaPagamento);
+            System.out.println("TESTE: " + receita.getDescricao());
         }
     }
 

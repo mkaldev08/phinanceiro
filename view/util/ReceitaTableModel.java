@@ -1,8 +1,10 @@
 package view.util;
 
+import model.Cliente;
 import model.Receita;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReceitaTableModel extends AbstractTableModel {
@@ -10,8 +12,12 @@ public class ReceitaTableModel extends AbstractTableModel {
     private final String[] colunas = {"Cliente", "Valor", "Forma Pagamento", "Recebido", "Data", "Orçamento"};
 
     public void atualizarDados(List<Receita> receitas) {
-        this.receitas = receitas;
+        this.receitas = new ArrayList<>(receitas);
         fireTableDataChanged();
+    }
+
+    public ReceitaTableModel(List<Receita> receitas) {
+        this.receitas = new ArrayList<>(receitas);
     }
 
     @Override

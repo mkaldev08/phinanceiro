@@ -15,7 +15,7 @@ public class PanelReceitas extends JPanel {
 
     public PanelReceitas(ReceitaController controller) {
         this.controller = controller;
-        this.tableModel = new ReceitaTableModel();
+        this.tableModel = new ReceitaTableModel(controller.listarTodasReceitas());
         this.tabelaReceitas = new JTable(tableModel);
 
         initComponents();

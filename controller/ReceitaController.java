@@ -38,12 +38,6 @@ public class ReceitaController {
         receita.registrarRecebimento();
     }
 
-    public List<Receita> listarReceitasPorCliente(int idCliente) {
-        return receitas.stream()
-                .filter(r -> r.getCliente().getId() == idCliente)
-                .collect(Collectors.toList());
-    }
-
     public List<Receita> listarReceitasRecebidas() {
         return receitas.stream()
                 .filter(Receita::isRecebido)

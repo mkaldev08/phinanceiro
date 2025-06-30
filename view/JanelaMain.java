@@ -20,7 +20,7 @@ public class JanelaMain extends JFrame {
         this.receitaController = new ReceitaController();
         this.materialController = new MaterialController();
         this.fornecedorController = new FornecedorController();
-        this.orcamentoController = new OrcamentoController(servicoController, materialController);
+        this.orcamentoController = new OrcamentoController(servicoController, materialController, receitaController);
         setTitle("Sistema de Gestão Phinanceira - Gráfica");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
