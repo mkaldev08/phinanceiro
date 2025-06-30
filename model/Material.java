@@ -19,6 +19,10 @@ public class Material {
             this.descricao = descricao;
     }
 
+    public String getDescricao(){
+        return descricao;
+    }
+
     public int getEstoque() {
         return estoque;
     }
@@ -47,5 +51,13 @@ public class Material {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUnidadeMedida() {
+        return unidadeMedida;
+    }
+
+    public void setUnidadeMedida(String unidadeMedida) {
+        this.unidadeMedida = unidadeMedida;
     }
 }

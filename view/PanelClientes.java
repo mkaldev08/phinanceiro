@@ -2,10 +2,9 @@ package view;
 
 import controller.ClienteController;
 import model.Cliente;
-import model.Servico;
+import view.util.ClienteTableModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 

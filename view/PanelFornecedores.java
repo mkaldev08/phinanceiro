@@ -2,6 +2,7 @@ package view;
 
 import controller.FornecedorController;
 import model.Fornecedor;
+import view.util.FornecedorTableModel;
 
 import javax.swing.*;
 import java.awt.*;

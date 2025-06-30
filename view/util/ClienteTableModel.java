@@ -1,4 +1,4 @@
-package view;
+package view.util;
 
 import model.Cliente;
 

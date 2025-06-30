@@ -7,6 +7,8 @@ import model.Cliente;
 import model.Orcamento;
 import model.Receita;
 import model.Servico;
+import view.util.ClienteTableModel;
+import view.util.ServicoTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -48,9 +50,13 @@ public class PanelOrcamentos extends JPanel {
         JScrollPane scrollServicos = new JScrollPane(tableServicosDisponiveis);
         JScrollPane scrollClientes = new JScrollPane(tabelaClientes);
 
+        scrollServicos.setBorder(BorderFactory.createTitledBorder("Serviços"));
+        scrollClientes.setBorder(BorderFactory.createTitledBorder("Clientes"));
+
         // Tabela de itens que estara no orçamento
         tableItensOrcamento = new JTable(new DefaultTableModel(new Object[]{"Descrição", "Quantidade", "Valor Unitário", "Subtotal"}, 0));
         JScrollPane scrollItens = new JScrollPane(tableItensOrcamento);
+        scrollItens.setBorder(BorderFactory.createTitledBorder("Itens para o Orçamento"));
 
         JSplitPane spTabelas = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollServicos, scrollClientes);
 

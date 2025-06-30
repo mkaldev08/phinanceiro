@@ -34,7 +34,7 @@ public class JanelaMain extends JFrame {
 
         tabbedPane.addTab("Fornecedores", new PanelFornecedores(fornecedorController));
         tabbedPane.addTab("Clientes", new PanelClientes(clienteController));
-        tabbedPane.addTab("Serviços", new PanelServicos(servicoController));
+        tabbedPane.addTab("Materiais e Serviços", new PanelServicosEMateriais(servicoController, materialController));
         tabbedPane.addTab("Orçamentos", new PanelOrcamentos(servicoController, orcamentoController, clienteController));
         tabbedPane.addTab("Receitas", new PanelReceitas(receitaController));
         tabbedPane.addTab("Dispesas", new PanelDispesas());

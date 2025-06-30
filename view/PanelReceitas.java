@@ -2,6 +2,8 @@ package view;
 
 import controller.ReceitaController;
 import model.Receita;
+import view.util.ReceitaTableModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -24,7 +26,7 @@ public class PanelReceitas extends JPanel {
         setLayout(new BorderLayout());
 
 
-        JToolBar toolBar = new JToolBar();
+        JPanel panelbotoes = new JPanel();
 
         JButton btnAtualizar = new JButton("Atualizar");
         btnAtualizar.addActionListener(e -> carregarDados());
@@ -35,17 +37,16 @@ public class PanelReceitas extends JPanel {
         JButton btnFiltrar = new JButton("Filtrar");
         btnFiltrar.addActionListener(e -> mostrarDialogoFiltro());
 
-        toolBar.add(btnAtualizar);
-        toolBar.add(btnMarcarRecebido);
-        toolBar.add(btnFiltrar);
-
+        panelbotoes.add(btnAtualizar);
+        panelbotoes.add(btnMarcarRecebido);
+        panelbotoes.add(btnFiltrar);
 
         tabelaReceitas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabelaReceitas.setAutoCreateRowSorter(true);
 
         JScrollPane scrollPane = new JScrollPane(tabelaReceitas);
 
-        add(toolBar, BorderLayout.NORTH);
+        add(panelbotoes, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
 
