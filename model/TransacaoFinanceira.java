@@ -13,7 +13,8 @@ abstract class TransacaoFinanceira {
         this.setData(LocalDate.now());
     }
 
-    public TransacaoFinanceira(){}
+    public TransacaoFinanceira() {
+    }
 
     public LocalDate getData() {
         return data;
@@ -25,6 +26,10 @@ abstract class TransacaoFinanceira {
 
     public double getValor() {
         return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public String getDescricao() {

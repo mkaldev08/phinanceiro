@@ -3,8 +3,9 @@ package model;
 import java.time.LocalDate;
 
 public class Despesa extends TransacaoFinanceira {
-    private Fornecedor fornedor;
+    private Fornecedor fornecedor;
     private CATEGORIA categoria;
+    private int id;
 
 
     public enum CATEGORIA {
@@ -15,15 +16,15 @@ public class Despesa extends TransacaoFinanceira {
                    Fornecedor fornecedor, CATEGORIA categoria) {
         super(valor, descricao);
         this.categoria = categoria;
-        this.fornedor = fornecedor;
+        this.fornecedor = fornecedor;
     }
 
-    public Fornecedor getFornedor() {
-        return fornedor;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
-    public void setFornedor(Fornecedor fornedor) {
-        this.fornedor = fornedor;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
     public CATEGORIA getCategoria() {
@@ -32,5 +33,13 @@ public class Despesa extends TransacaoFinanceira {
 
     public void setCategoria(CATEGORIA categoria) {
         this.categoria = categoria;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

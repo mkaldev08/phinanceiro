@@ -12,6 +12,7 @@ public class JanelaMain extends JFrame {
     private final ReceitaController receitaController;
     private final MaterialController materialController;
     private final FornecedorController fornecedorController;
+    private final DespesaController despesaController;
 
     public JanelaMain() {
         // Inicializa os controllers
@@ -20,6 +21,7 @@ public class JanelaMain extends JFrame {
         this.receitaController = new ReceitaController();
         this.materialController = new MaterialController();
         this.fornecedorController = new FornecedorController();
+        this.despesaController = new DespesaController();
         this.orcamentoController = new OrcamentoController(servicoController, materialController, receitaController);
         setTitle("Sistema de Gestão Phinanceira - Gráfica");
         setSize(800, 600);
@@ -37,7 +39,7 @@ public class JanelaMain extends JFrame {
         tabbedPane.addTab("Materiais e Serviços", new PanelServicosEMateriais(servicoController, materialController));
         tabbedPane.addTab("Orçamentos", new PanelOrcamentos(servicoController, orcamentoController, clienteController));
         tabbedPane.addTab("Receitas", new PanelReceitas(receitaController));
-        tabbedPane.addTab("Dispesas", new PanelDispesas());
+        tabbedPane.addTab("Despesas", new PanelDespesas(despesaController, fornecedorController));
         add(tabbedPane);
     }
 
