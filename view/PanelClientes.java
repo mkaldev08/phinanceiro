@@ -76,6 +76,7 @@ public class PanelClientes extends JPanel {
         panel.add(new JLabel("Endereço:"));
         panel.add(txtEndereco);
 
+        // JOptionPane.OK_CANCEL_OPTION automatically adds OK and Cancel buttons to the dialog
         int result = JOptionPane.showConfirmDialog(null, panel, "Novo Cliente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
@@ -106,6 +107,7 @@ public class PanelClientes extends JPanel {
         }
 
         Cliente cliente = controller.listarTodosClientes().get(selectedRow);
+        // JOptionPane.YES_NO_OPTION automatically adds Yes and No buttons to the dialog
         int confirm = JOptionPane.showConfirmDialog(
                 null, "Tem certeza que deseja remover este cliente?",
                 "Confirmar", JOptionPane.YES_NO_OPTION);
@@ -149,20 +151,26 @@ public class PanelClientes extends JPanel {
         panel.add(new JLabel("Endereço:"));
         panel.add(txtEndereco);
 
+
         int result = JOptionPane.showConfirmDialog(
                 this, panel, "Editar Cliente",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Cliente clienteAtualizado = new Cliente(txtNome.getText(),
-                        txtSobreNome.getText(),
-                        txtTelefone.getText(), txtEmail.getText(),
-                        txtEndereco.getText(), txtIdentidade.getText());
+                cliente.setNome(
+                        txtNome.getText());
 
-                controller.atualizarCliente(clienteAtualizado);
+                cliente.setSobreNome(txtSobreNome.getText());
+                cliente.setTelefone(txtTelefone.getText());
+                cliente.setEmail(txtEmail.getText());
+                cliente.setEndereco(txtEndereco.getText());
+
+
+                controller.atualizarCliente(cliente);
                 atualizarTabela();
             } catch (IllegalArgumentException e) {
+                System.out.println("Erro aqui");
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }

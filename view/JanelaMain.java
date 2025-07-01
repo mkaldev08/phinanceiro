@@ -23,6 +23,7 @@ public class JanelaMain extends JFrame {
         this.fornecedorController = new FornecedorController();
         this.despesaController = new DespesaController();
         this.orcamentoController = new OrcamentoController(servicoController, materialController, receitaController);
+        
         setTitle("Sistema de Gestão Phinanceira - Gráfica");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

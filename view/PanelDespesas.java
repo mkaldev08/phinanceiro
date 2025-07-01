@@ -209,7 +209,7 @@ public class PanelDespesas extends JPanel {
                 despesa.setValor(valor);
                 despesa.setFornecedor(fornecedor);
                 despesa.setCategoria(categoria);
-                /* ToDo resolver o converter de DAta */
+
                 LocalDate novaData = LocalDate.parse(data.toString());
                 despesa.setData(novaData);
 

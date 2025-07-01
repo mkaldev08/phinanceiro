@@ -35,9 +35,7 @@ public class PanelServicosEMateriais extends JPanel {
     public void initComponents() {
         setLayout(new BorderLayout());
 
-
         JPanel panelServicos = new JPanel(new BorderLayout());
-
 
         JPanel panelBotoesServicos = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton btnAdicionarServico = new JButton("Adicionar Serviço");
@@ -48,14 +46,11 @@ public class PanelServicosEMateriais extends JPanel {
         panelBotoesServicos.add(btnEditarServico);
         panelBotoesServicos.add(btnRemoverServico);
 
-
         panelServicos.add(panelBotoesServicos, BorderLayout.NORTH);
         panelServicos.add(new JScrollPane(tabelaServicos), BorderLayout.CENTER);
         panelServicos.setBorder(BorderFactory.createTitledBorder("Serviços"));
 
-
         JPanel panelMateriais = new JPanel(new BorderLayout());
-
 
         JPanel panelBotoesMateriais = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton btnAdicionarMaterial = new JButton("Adicionar Material");
@@ -66,24 +61,19 @@ public class PanelServicosEMateriais extends JPanel {
         panelBotoesMateriais.add(btnEditarMaterial);
         panelBotoesMateriais.add(btnRemoverMaterial);
 
-
         panelMateriais.add(panelBotoesMateriais, BorderLayout.NORTH);
         panelMateriais.add(new JScrollPane(tabelaMateriais), BorderLayout.CENTER);
         panelMateriais.setBorder(BorderFactory.createTitledBorder("Materiais"));
 
-
         JSplitPane splitPane = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
                 panelServicos,
-                panelMateriais
-        );
-
+                panelMateriais);
 
         splitPane.setDividerLocation(0.5);
         splitPane.setResizeWeight(0.5);
         splitPane.setOneTouchExpandable(true);
         add(splitPane, BorderLayout.CENTER);
-
 
         btnAdicionarServico.addActionListener(this::adicionarServico);
         btnEditarServico.addActionListener(this::editarServico);
@@ -102,7 +92,6 @@ public class PanelServicosEMateriais extends JPanel {
         materialTableModel.atualizarDados(materialController.listarTodosMateriais());
     }
 
-
     private void adicionarServico(ActionEvent eventClick) {
 
         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -115,12 +104,13 @@ public class PanelServicosEMateriais extends JPanel {
         panel.add(new JLabel("Valor (kz):"));
         panel.add(txtValorUnitario);
 
-
-        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Serviço", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Serviço", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Servico novoServico = new Servico(txtDescricao.getText(), Double.parseDouble(txtValorUnitario.getText()));
+                Servico novoServico = new Servico(txtDescricao.getText(),
+                        Double.parseDouble(txtValorUnitario.getText()));
 
                 controller.cadastrarServico(novoServico);
                 atualizarTabela();
@@ -133,7 +123,8 @@ public class PanelServicosEMateriais extends JPanel {
     private void editarServico(ActionEvent evt) {
         int selectedRow = tabelaServicos.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um cliente para editar", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um cliente para editar", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -149,13 +140,16 @@ public class PanelServicosEMateriais extends JPanel {
         panel.add(new JLabel("Valor (kz):"));
         panel.add(txtValorUnitario);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Editar Cliente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Editar Cliente", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Servico servAtualizado = new Servico(txtDescricao.getText(), Double.parseDouble(txtValorUnitario.getText()));
+                servico.setDescricao(txtDescricao.getText());
 
-                controller.atualizarServico(servAtualizado);
+                servico.setValorUnitario(Double.parseDouble(txtValorUnitario.getText()));
+
+                controller.atualizarServico(servico);
                 atualizarTabela();
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -167,13 +161,15 @@ public class PanelServicosEMateriais extends JPanel {
         int selectedRow = tabelaServicos.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um servço para remover", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um servço para remover", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Servico servico = controller.listarTodosServicos().get(selectedRow);
 
-        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este serviço?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este serviço?", "Confirmar",
+                JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             controller.removerServico(servico.getId());
@@ -196,15 +192,14 @@ public class PanelServicosEMateriais extends JPanel {
         panel.add(new JLabel("Unidade de Medida:"));
         panel.add(txtUnidadeMedida);
 
-
-        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Material", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
                 Material novoMaterial = new Material(txtDescricao.getText(),
                         txtUnidadeMedida.getText(),
-                        Double.parseDouble(txtValorUnitario.getText())
-                );
+                        Double.parseDouble(txtValorUnitario.getText()));
 
                 materialController.cadastrarMaterial(novoMaterial);
                 atualizarMateriais();
@@ -217,7 +212,8 @@ public class PanelServicosEMateriais extends JPanel {
     private void editarMaterial(ActionEvent evt) {
         int selectedRow = tabelaMateriais.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um Material para editar", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um Material para editar", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -236,16 +232,16 @@ public class PanelServicosEMateriais extends JPanel {
         panel.add(new JLabel("Unidade Medida:"));
         panel.add(txtUnidadeMedida);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Editar Material", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, panel, "Editar Material", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Material materialAtualizado = new Material(txtDescricao.getText(),
-                        txtUnidadeMedida.getText(),
-                        Double.parseDouble(txtValorUnitario.getText())
-                );
+                material.setDescricao(txtDescricao.getText());
+                material.setUnidadeMedida(txtUnidadeMedida.getText());
+                material.setPrecoUnitario(Double.parseDouble(txtValorUnitario.getText()));
 
-                materialController.atualizarMaterial(materialAtualizado);
+                materialController.atualizarMaterial(material);
                 atualizarMateriais();
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -257,13 +253,15 @@ public class PanelServicosEMateriais extends JPanel {
         int selectedRow = tabelaMateriais.getSelectedRow();
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um Material para remover", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um Material para remover", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Material material = materialController.listarTodosMateriais().get(selectedRow);
 
-        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este Material?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este Material?", "Confirmar",
+                JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             materialController.removerMaterial(material.getId());

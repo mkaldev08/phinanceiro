@@ -2,6 +2,7 @@
 package controller;
 
 import model.Cliente;
+import model.Despesa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +39,15 @@ public class ClienteController {
         return clientes.stream()
                 .filter(c -> c.getId() == id)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
     }
 
     public void atualizarCliente(Cliente clienteAtualizado) {
         validarCliente(clienteAtualizado);
         Cliente clienteExistente = buscarCliente(clienteAtualizado.getId());
-        if (clienteExistente == null) {
-            throw new IllegalArgumentException("Cliente não encontrado para atualização");
-        }
+
+        System.out.println("clienteExistente.getId() = " + clienteExistente.getId());
+        System.out.println("clienteAtualizado.getId() = " + clienteAtualizado.getId());
 
         clienteExistente.setNome(clienteAtualizado.getNome());
         clienteExistente.setTelefone(clienteAtualizado.getTelefone());

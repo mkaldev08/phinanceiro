@@ -165,14 +165,14 @@ public class PanelFornecedores extends JPanel {
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Fornecedor fornecedorAtualizado = new Fornecedor(
-                        txtProduto.getText(), txtNome.getText(),
-                        txtSobreNome.getText(),
-                        txtTelefone.getText(), txtEmail.getText(),
-                        txtEndereco.getText(), txtIdentidade.getText());
+              fornecedor.setSobreNome(txtSobreNome.getText());
+                fornecedor.setTelefone(txtTelefone.getText());
+                fornecedor.setEmail(txtEmail.getText());
+                fornecedor.setEndereco(txtEndereco.getText());
+                fornecedor.setProdutoFornecido(txtProduto.getText());
+                fornecedor.setBilheteIdentidade(txtIdentidade.getText());
 
-
-                controller.atualizarFornecedor(fornecedorAtualizado);
+                controller.atualizarFornecedor(fornecedor);
                 atualizarTabela();
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
