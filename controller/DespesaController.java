@@ -2,7 +2,6 @@ package controller;
 
 import model.Despesa;
 import model.Fornecedor;
-import model.Despesa;
 
 import java.util.ArrayList;
 import java.util.List;

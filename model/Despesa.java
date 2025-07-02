@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalDate;
-
 public class Despesa extends TransacaoFinanceira {
     private Fornecedor fornecedor;
     private CATEGORIA categoria;

@@ -1,6 +1,5 @@
 package view.util;
 
-import model.Cliente;
 import model.Receita;
 
 import javax.swing.table.AbstractTableModel;

@@ -8,7 +8,6 @@ public class Orcamento {
     private Cliente cliente;
     private LocalDate data;
     private ArrayList<ItemOrcamento> itens;
-    private double valorTotal;
     private STATUS status;
     private int id;
 

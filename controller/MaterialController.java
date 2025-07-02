@@ -1,8 +1,6 @@
 package controller;
 
 import model.Material;
-import model.Material;
-import model.Material;
 
 import java.util.ArrayList;
 import java.util.List;

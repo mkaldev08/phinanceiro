@@ -3,7 +3,6 @@ package view.util;
 import model.Despesa;
 
 import javax.swing.table.AbstractTableModel;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;

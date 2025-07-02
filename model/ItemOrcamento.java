@@ -1,8 +1,5 @@
 package model;
 
-import model.Material;
-import model.Servico;
-
 public class ItemOrcamento {
     private Servico servico;
     private Material material;
@@ -10,6 +7,7 @@ public class ItemOrcamento {
     private String observacoes;
     private double valorUnitario;
     private double desconto;
+    private int id;
 
     public ItemOrcamento(Servico servico, int quantidade, String observacoes) {
         this.servico = servico;
@@ -51,5 +49,13 @@ public class ItemOrcamento {
 
     public void setDesconto(double desconto) {
         this.desconto = desconto >= 0 && desconto <= 1 ? desconto : 0; // percentagem normalizada (0% a 100% como 0 a 1)
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
