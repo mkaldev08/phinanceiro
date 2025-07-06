@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-
 public class PanelClientes extends JPanel {
     private final ClienteController controller;
     private final ClienteTableModel tableModel;
@@ -22,7 +21,6 @@ public class PanelClientes extends JPanel {
         initComponents();
         atualizarTabela();
     }
-
 
     private void initComponents() {
         setLayout(new BorderLayout());
@@ -76,12 +74,13 @@ public class PanelClientes extends JPanel {
         panel.add(new JLabel("Endereço:"));
         panel.add(txtEndereco);
 
-        // JOptionPane.OK_CANCEL_OPTION automatically adds OK and Cancel buttons to the dialog
-        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Cliente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Novo Cliente", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                Cliente novoCliente = new Cliente(txtNome.getText(), txtSobreNome.getText(), txtTelefone.getText(), txtEmail.getText(), txtEndereco.getText(), txtIdentidade.getText());
+                Cliente novoCliente = new Cliente(txtNome.getText(), txtSobreNome.getText(), txtTelefone.getText(),
+                        txtEmail.getText(), txtEndereco.getText(), txtIdentidade.getText());
 
                 controller.cadastrarCliente(novoCliente);
                 atualizarTabela();
@@ -151,24 +150,22 @@ public class PanelClientes extends JPanel {
         panel.add(new JLabel("Endereço:"));
         panel.add(txtEndereco);
 
-
         int result = JOptionPane.showConfirmDialog(
                 this, panel, "Editar Cliente",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                cliente.setNome(
-                        txtNome.getText());
-
+                cliente.setNome(txtNome.getText());
                 cliente.setSobreNome(txtSobreNome.getText());
                 cliente.setTelefone(txtTelefone.getText());
                 cliente.setEmail(txtEmail.getText());
                 cliente.setEndereco(txtEndereco.getText());
-
+                cliente.setBilheteIdentidade(txtIdentidade.getText());
 
                 controller.atualizarCliente(cliente);
                 atualizarTabela();
+                System.out.println("Tabela Atualizada");
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro aqui");
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
